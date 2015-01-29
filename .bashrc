@@ -1,6 +1,3 @@
-# Aliases
-. ~/.dotfiles/shell/aliases.sh
-
 # Theme
 . ~/.dotfiles/shell/theme.zsh
 
@@ -15,3 +12,6 @@
 
 # Others
 . ~/.dotfiles/shell/others.zsh
+
+# Local Config
+. ~/.dotfiles/shell/local.sh
