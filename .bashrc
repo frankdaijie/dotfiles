@@ -14,4 +14,4 @@
 . ~/.dotfiles/shell/others.zsh
 
 # Local Config
-. ~/.dotfiles/shell/local.sh
+. ~/.dotfiles/shell/local.zsh
