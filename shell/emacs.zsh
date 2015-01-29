@@ -5,7 +5,7 @@ export PATH="/usr/local/bin:$PATH"
 alias e='emacsclient -t'
 
 # GUI Emacs
-alias ec='emacsclient -c'
+alias ec='emacsclient -c -q &'
 
 # Force myself using Emacs
 # alias vim='emacsclient -t'
