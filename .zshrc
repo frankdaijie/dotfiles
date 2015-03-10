@@ -50,6 +50,9 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
 export TERM=xterm-256color
 
+# magic-space
+bindkey " " magic-space
+
 
 # Emacs
 if [ -n "$INSIDE_EMACS" ]; then
