@@ -11,15 +11,17 @@
  dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs/")
  ;; List of configuration layers to load.
  dotspacemacs-configuration-layers '(auctex
+                                     auto-completion
                                      chinese-pyim
                                      c-c++
-                                     company-mode
                                      evernote
                                      git
-                                     osx
                                      markdown
+                                     osx
+                                     org
                                      python
                                      ruby
+                                     syntax-checking
                                      vagrant)
  ;; A list of packages and/or extensions that will not be install and loaded.
  dotspacemacs-excluded-packages '()
@@ -89,14 +91,15 @@
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
 
-  (eval-after-load 'flycheck
-    '(setq flycheck-check-syntax-automatically '(save
-                                                 idle-change
-                                                 mode-enabled
-                                                 new-line)))
-  (eval-after-load 'company
-                   '(setq company-idle-delay 0.1))
-  (setq company-quickhelp-max-lines 10)
+  ;; (eval-after-load 'flycheck
+  ;;   '(setq flycheck-check-syntax-automatically '(save
+  ;;                                                idle-change
+  ;;                                                mode-enabled
+  ;;                                                new-line)))
+  ;; (eval-after-load 'company
+  ;;   '(lambda ()
+  ;;      (setq company-idle-delay 0.1)))
+  ;; (setq company-quickhelp-max-lines 10)
   ;; (global-set-key (kbd "s-i") 'company-complete-common)
   ;; (global-set-key (kbd "C-k") 'company-complete-common)
   (define-key evil-insert-state-map (kbd "C-p") 'company-complete-common)
@@ -104,7 +107,7 @@ This function is called at the very end of Spacemacs initialization."
   (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
   (setq tab-always-indent 'complete)
 
-  (smartparens-global-mode 1)
+  ;; (smartparens-global-mode 1)
 
   (setq powerline-default-separator 'arrow)
   (set-face-attribute 'region nil :foreground "white" :background "#Aa7941")
@@ -161,6 +164,11 @@ This function is called at the very end of Spacemacs initialization."
   (add-hook 'yas/prompt-functions 'shk-yas/helm-prompt)
 
   ;;; Lang
+  (setq comment-auto-fill-only-comments t)
+  (add-hook 'c-mode-hook
+            (lambda ()
+              (auto-fill-mode 1)))
+
   ;; python
   (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
   (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)
@@ -169,6 +177,7 @@ This function is called at the very end of Spacemacs initialization."
   (setq latex-run-command "pdflatex")
   (add-hook 'text-mode-hook
             (lambda ()
+              (smartparens-mode 1)
               (auto-fill-mode 1)))
 
   ;; whilte-space cleanup
