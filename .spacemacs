@@ -170,8 +170,8 @@ This function is called at the very end of Spacemacs initialization."
               (auto-fill-mode 1)))
 
   ;; python
-  (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
-  (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)
+  ;; (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
+  ;; (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)
 
   ;; latex
   (setq latex-run-command "pdflatex")
@@ -278,23 +278,24 @@ This function is called at the very end of Spacemacs initialization."
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- '(company-backends
-   (quote
-    ((company-tern :with company-yasnippet)
-     company-c-headers
-     (company-anaconda :with company-yasnippet)
-     (company-bbdb :with company-yasnippet)
-     (company-nxml :with company-yasnippet)
-     (company-css :with company-yasnippet)
-     (company-eclim :with company-yasnippet)
-     (company-clang :with company-yasnippet)
-     (company-xcode :with company-yasnippet)
-     (company-cmake :with company-yasnippet)
-     (company-capf :with company-yasnippet)
-     (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
-     (company-oddmuse :with company-yasnippet)
-     (company-files :with company-yasnippet)
-     (company-dabbrev :with company-yasnippet))))
+ ;; '(company-backends
+ ;;   (quote
+ ;;    ((company-tern :with company-yasnippet)
+ ;;     company-c-headers
+ ;;     (company-anaconda :with company-yasnippet)
+ ;;     (company-bbdb :with company-yasnippet)
+ ;;     (company-nxml :with company-yasnippet)
+ ;;     (company-css :with company-yasnippet)
+ ;;     (company-eclim :with company-yasnippet)
+ ;;     (company-clang :with company-yasnippet)
+ ;;     ;; (company-clang)
+ ;;     (company-xcode :with company-yasnippet)
+ ;;     (company-cmake :with company-yasnippet)
+ ;;     (company-capf :with company-yasnippet)
+ ;;     (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
+ ;;     (company-oddmuse :with company-yasnippet)
+ ;;     (company-files :with company-yasnippet)
+ ;;     (company-dabbrev :with company-yasnippet))))
  '(paradox-github-token t)
  '(pyim-dicts
    (quote
