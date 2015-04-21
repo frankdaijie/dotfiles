@@ -16,6 +16,7 @@
     irony
     company-irony
     helm-gtags
+    company-c-headers
     )
   "List of all packages to install and/or initialize. Built-in packages
 which require an initialization must be listed explicitly in the list.")
@@ -55,11 +56,23 @@ which require an initialization must be listed explicitly in the list.")
           (add-hook 'c++-mode-hook
                     (lambda ()
                       (set (make-local-variable 'company-backends)
-                           '(company-irony company-gtags))))
+                           '(company-c-headers :with company-irony)
+                             )))
+
           (add-hook 'c-mode-hook
                     (lambda ()
                       (set (make-local-variable 'company-backends)
-                           '(company-irony company-gtags)))))))))
+                           '(company-c-headers :with company-irony))))
+          )))))
+
+(defun c-c++-enhancement/init-company-c-headers ()
+  (use-package company-c-headers
+    :defer t
+    :config
+    (cond
+     ((system-is-mac) (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.2.1/"))
+     ((system-is-linux) (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")))
+    ))
 
 (defun c-c++-enhancement/init-helm-gtags ()
   (use-package helm-gtags
