@@ -14,7 +14,7 @@
                                      auto-completion
                                      chinese-pyim
                                      c-c++
-                                     c-c++-enhance
+                                     c-c++-enhancement
                                      evernote
                                      git
                                      markdown
@@ -92,11 +92,11 @@
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
 
-  ;; (eval-after-load 'flycheck
-  ;;   '(setq flycheck-check-syntax-automatically '(save
-  ;;                                                idle-change
-  ;;                                                mode-enabled
-  ;;                                                new-line)))
+  (eval-after-load 'flycheck
+    '(setq flycheck-check-syntax-automatically '(save
+                                                 idle-change
+                                                 mode-enabled
+                                                 new-line)))
   ;; (eval-after-load 'company
   ;;   '(lambda ()
   ;;      (setq company-idle-delay 0.1)))

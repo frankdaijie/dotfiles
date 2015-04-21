@@ -1,4 +1,4 @@
-;;; packages.el --- c-c++-enhance Layer packages File for Spacemacs
+;;; packages.el --- c-c++-enhancement Layer packages File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2014 Sylvain Benner
 ;; Copyright (c) 2014-2015 Sylvain Benner & Contributors
@@ -10,9 +10,9 @@
 ;;
 ;;; License: GPLv3
 
-(defvar c-c++-enhance-packages
+(defvar c-c++-enhancement-packages
   '(
-    ;; package c-c++-enhances go here
+    ;; package c-c++-enhancements go here
     irony
     company-irony
     helm-gtags
@@ -20,12 +20,12 @@
   "List of all packages to install and/or initialize. Built-in packages
 which require an initialization must be listed explicitly in the list.")
 
-(defvar c-c++-enhance-excluded-packages '()
+(defvar c-c++-enhancement-excluded-packages '()
   "List of packages to exclude.")
 
-;; For each package, define a function c-c++-enhance/init-<package-c-c++-enhance>
+;; For each package, define a function c-c++-enhancement/init-<package-c-c++-enhanement>
 ;;
-;; (defun c-c++-enhance/init-my-package ()
+;; (defun c-c++-enhancement/init-my-package ()
 ;;   "Initialize my package"
 ;;   )
 ;;
@@ -33,7 +33,7 @@ which require an initialization must be listed explicitly in the list.")
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
 
-(defun c-c++-enhance/init-irony ()
+(defun c-c++-enhancement/init-irony ()
   (use-package irony
     :config
     (progn
@@ -45,7 +45,7 @@ which require an initialization must be listed explicitly in the list.")
       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))))
 
 
-(defun c-c++-enhance/init-company-irony ()
+(defun c-c++-enhancement/init-company-irony ()
   (use-package company-irony
     :config
     (progn
@@ -61,7 +61,7 @@ which require an initialization must be listed explicitly in the list.")
                       (set (make-local-variable 'company-backends)
                            '(company-irony company-gtags)))))))))
 
-(defun c-c++-enhance/init-helm-gtags ()
+(defun c-c++-enhancement/init-helm-gtags ()
   (use-package helm-gtags
     :config
     ;; The following configuration are mostly based on tuhdo:
