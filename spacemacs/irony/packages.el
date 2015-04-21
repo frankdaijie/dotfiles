@@ -34,7 +34,7 @@ which require an initialization must be listed explicitly in the list.")
 
 (defun irony/init-irony ()
   (use-package irony
-    :init
+    :config
     (progn
       (add-hook 'c++-mode-hook 'irony-mode)
       (add-hook 'c-mode-hook 'irony-mode)
@@ -46,13 +46,23 @@ which require an initialization must be listed explicitly in the list.")
 
 (defun irony/init-company-irony ()
   (use-package company-irony
-    :init
+    :config
     (progn
       (eval-after-load 'company
         '(progn
           (add-to-list 'company-backends 'company-irony)
-          (setq company-backends (delete 'company-clang company-backends))
+          ;; (setq company-backends (delete 'company-clang company-backends))
+          (add-hook 'c++-mode-hook
+                    (lambda ()
+                      (set (make-local-variable 'company-backends)
+                           '(company-irony company-gtags))))
+
+          (add-hook 'c-mode-hook
+                    (lambda ()
+                      (set (make-local-variable 'company-backends)
+                           '(company-irony company-gtags))))
           ;; (setq company-backends (delete 'company-semantic company-backends))
+
                                          )))))
 
     ;; (eval-after-load 'company
