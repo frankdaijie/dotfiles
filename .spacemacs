@@ -14,10 +14,9 @@
                                      auto-completion
                                      chinese-pyim
                                      c-c++
-                                     c-c++-code-navigation
+                                     c-c++-enhance
                                      evernote
                                      git
-                                     irony
                                      markdown
                                      osx
                                      org
