@@ -45,7 +45,6 @@ which require an initialization must be listed explicitly in the list.")
       (add-hook 'irony-mode-hook 'my-irony-mode-hook)
       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))))
 
-
 (defun c-c++-enhancement/init-company-irony ()
   (use-package company-irony
     :config
