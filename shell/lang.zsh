@@ -1,3 +1,6 @@
+# c++
+export GTAGSLIBPATH=$HOME/.gtags/
+
 # Python
 
 # add path of tools into system path: nosetests

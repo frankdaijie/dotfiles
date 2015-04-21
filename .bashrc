@@ -4,8 +4,8 @@
 # Emacs
 . ~/.dotfiles/shell/emacs.zsh
 
-# Python
-. ~/.dotfiles/shell/python.zsh
+# Lang
+. ~/.dotfiles/shell/lang.zsh
 
 # Server
 . ~/.dotfiles/shell/server.zsh
