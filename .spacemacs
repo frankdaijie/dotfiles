@@ -14,8 +14,10 @@
                                      auto-completion
                                      chinese-pyim
                                      c-c++
+                                     c-c++-code-navigation
                                      evernote
                                      git
+                                     irony
                                      markdown
                                      osx
                                      org
@@ -102,7 +104,7 @@ This function is called at the very end of Spacemacs initialization."
   ;; (setq company-quickhelp-max-lines 10)
   ;; (global-set-key (kbd "s-i") 'company-complete-common)
   ;; (global-set-key (kbd "C-k") 'company-complete-common)
-  (define-key evil-insert-state-map (kbd "C-p") 'company-complete-common)
+  (define-key evil-insert-state-map (kbd "C-p") 'company-complete)
 
   (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
   (setq tab-always-indent 'complete)
