@@ -5,88 +5,151 @@
 ;; Configuration Layers
 ;; --------------------
 
-(setq-default
- ;; List of additional paths where to look for configuration layers.
- ;; Paths must have a trailing slash (ie. `~/.mycontribs/')
- dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs/")
- ;; List of configuration layers to load.
- dotspacemacs-configuration-layers '(auctex
-                                     auto-completion
-                                     chinese-pyim
-                                     c-c++
-                                     c-c++-enhancement
-                                     evernote
-                                     git
-                                     markdown
-                                     osx
-                                     org
-                                     python
-                                     ruby
-                                     syntax-checking
-                                     vagrant)
- ;; A list of packages and/or extensions that will not be install and loaded.
- dotspacemacs-excluded-packages '()
-
- dotspacemacs-themes '(zenburn)
-)
-
-;; Settings
-;; --------
-
-(setq-default
- ;; Default theme applied at startup
- dotspacemacs-default-theme 'monokai
- ;; The leader key
- dotspacemacs-leader-key "SPC"
- ;; The command key used for Evil commands (ex-commands) and
- ;; Emacs commands (M-x).
- ;; By default the command key is `:' so ex-commands are executed like in Vim
- ;; with `:' and Emacs commands are executed with `<leader> :'.
- dotspacemacs-command-key ":"
- ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
- ;; the commands bound to the current keystrokes.
- dotspacemacs-guide-key-delay 0.4
- ;; If non nil the frame is fullscreen when Emacs starts up (Emacs 24.4+ only).
- dotspacemacs-fullscreen-at-startup nil
- ;; If non nil the frame is maximized when Emacs starts up (Emacs 24.4+ only).
- ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
- dotspacemacs-maximized-at-startup nil
- ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth scrolling
- ;; overrides the default behavior of Emacs which recenters the point when
- ;; it reaches the top or bottom of the screen
- dotspacemacs-smooth-scrolling t
- ;; If non nil pressing 'jk' in insert state, ido or helm will activate the
- ;; evil leader.
- dotspacemacs-feature-toggle-leader-on-jk nil
- ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
- dotspacemacs-smartparens-strict-mode t
- ;; If non nil advises quit functions to keep server open when quitting.
- dotspacemacs-persistent-server nil
- ;; The default package repository used if no explicit repository has been
- ;; specified with an installed package.
- ;; Not used for now.
- dotspacemacs-default-package-repository nil
-)
-
-;; Initialization Hooks
-;; --------------------
+(defun dotspacemacs/layers ()
+  "Configuration Layers declaration."
+  (setq-default
+   ;; List of additional paths where to look for configuration layers.
+   ;; Paths must have a trailing slash (ie. `~/.mycontribs/')
+   dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs/")
+   ;; List of configuration layers to load. If it is the symbol `all' instead
+   ;; of a list then all discovered layers will be installed.
+   dotspacemacs-configuration-layers
+   '(
+     ;; --------------------------------------------------------
+     ;; Example of useful layers you may want to use right away
+     ;; Uncomment a layer name and press C-c C-c to install it
+     ;; --------------------------------------------------------
+     auctex
+     auto-completion
+     chinese-pyim
+     c-c++
+     c-c++-enhancement
+     ;; evernote
+     git
+     markdown
+     ;; osx
+     org
+     python
+     ruby
+     syntax-checking
+     )
+   ;; A list of packages and/or extensions that will not be install and loaded.
+   dotspacemacs-excluded-packages '()
+   ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
+   ;; are declared in a layer which is not a member of
+   ;; the list `dotspacemacs-configuration-layers'
+   dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
-  "User initialization for Spacemacs. This function is called at the very
- startup."
-  (spacemacs/set-font "Source Code Pro for Powerline" 14)
+  "Initialization function.
+This function is called at the very startup of Spacemacs initialization
+before layers configuration."
+  ;; This setq-default sexp is an exhaustive list of all the supported
+  ;; spacemacs settings.
+  (setq-default
+   ;; Either `vim' or `emacs'. Evil is always enabled but if the variable
+   ;; is `emacs' then the `holy-mode' is enabled at startup.
+   dotspacemacs-editing-style 'vim
+   ;; If non nil output loading progess in `*Messages*' buffer.
+   dotspacemacs-verbose-loading nil
+   ;; Specify the startup banner. Default value is `official', it displays
+   ;; the official spacemacs logo. An integer value is the index of text
+   ;; banner, `random' chooses a random text banner in `core/banners'
+   ;; directory. A string value must be a path to a .PNG file.
+   ;; If the value is nil then no banner is displayed.
+   ;; dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'official
+   ;; t if you always want to see the changelog at startup
+   dotspacemacs-always-show-changelog t
+   ;; List of items to show in the startup buffer. If nil it is disabled.
+   ;; Possible values are: `recents' `bookmarks' `projects'."
+   dotspacemacs-startup-lists '(recents projects)
+   ;; List of themes, the first of the list is loaded when spacemacs starts.
+   ;; Press <SPC> T n to cycle to the next theme in the list (works great
+   ;; with 2 themes variants, one dark and one light)
+   dotspacemacs-themes '(
+                         zenburn
+                         solarized-dark
+                         solarized-light
+                         leuven
+                         monokai
+                         )
+   ;; If non nil the cursor color matches the state color.
+   dotspacemacs-colorize-cursor-according-to-state t
+   ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
+   ;; size to make separators look not too crappy.
+   dotspacemacs-default-font '("Source Code Pro for Powerline"
+                               :size 13
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.1)
+   ;; The leader key
+   dotspacemacs-leader-key "SPC"
+   ;; The leader key accessible in `emacs state' and `insert state'
+   dotspacemacs-emacs-leader-key "M-m"
+   ;; Major mode leader key is a shortcut key which is the equivalent of
+   ;; pressing `<leader> m`. Set it to `nil` to disable it.
+   dotspacemacs-major-mode-leader-key ","
+   ;; Major mode leader key accessible in `emacs state' and `insert state'
+   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; The command key used for Evil commands (ex-commands) and
+   ;; Emacs commands (M-x).
+   ;; By default the command key is `:' so ex-commands are executed like in Vim
+   ;; with `:' and Emacs commands are executed with `<leader> :'.
+   dotspacemacs-command-key ":"
+   ;; If non nil the paste micro-state is enabled. While enabled pressing `p`
+   ;; several times cycle between the kill ring content.
+   dotspacemacs-enable-paste-micro-state t
+   ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
+   ;; the commands bound to the current keystrokes.
+   dotspacemacs-guide-key-delay 0.4
+   ;; If non nil a progress bar is displayed when spacemacs is loading. This
+   ;; may increase the boot time on some systems and emacs builds, set it to
+   ;; nil ;; to boost the loading time.
+   dotspacemacs-loading-progress-bar t
+   ;; If non nil the frame is fullscreen when Emacs starts up.
+   ;; (Emacs 24.4+ only)
+   dotspacemacs-fullscreen-at-startup nil
+   ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
+   ;; Use to disable fullscreen animations in OSX."
+   dotspacemacs-fullscreen-use-non-native nil
+   ;; If non nil the frame is maximized when Emacs starts up.
+   ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
+   ;; (Emacs 24.4+ only)
+   dotspacemacs-maximized-at-startup nil
+   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; the transparency level of a frame when it's active or selected.
+   ;; Transparency can be toggled through `toggle-transparency'.
+   dotspacemacs-active-transparency 90
+   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; the transparency level of a frame when it's inactive or deselected.
+   ;; Transparency can be toggled through `toggle-transparency'.
+   dotspacemacs-inactive-transparency 90
+   ;; If non nil unicode symbols are displayed in the mode line.
+   dotspacemacs-mode-line-unicode-symbols t
+   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
+   ;; scrolling overrides the default behavior of Emacs which recenters the
+   ;; point when it reaches the top or bottom of the screen.
+   dotspacemacs-smooth-scrolling t
+   ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
+   dotspacemacs-smartparens-strict-mode t
+   ;; If non nil advises quit functions to keep server open when quitting.
+   dotspacemacs-persistent-server nil
+   ;; List of search tool executable names. Spacemacs uses the first installed
+   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
+   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   ;; The default package repository used if no explicit repository has been
+   ;; specified with an installed package.
+   ;; Not used for now.
+   dotspacemacs-default-package-repository nil
+   )
+  ;; User initialization goes here
   (setq-default line-spacing 3)
   (setq-default c-default-style "linux"
-                c-basic-offset 4
                 c-toggle-hungry-state 1
                 c-toggle-auto-newline -1)
-)
-
-
-;; (defun term-send-tab ()
-;;   "Send tab in term mode."
-;;   (interactive
-;;   (term-send-raw-string "\t")))
+  (mac-switch-meta)
+  )
 
 (defun dotspacemacs/config ()
   "This is were you can ultimately override default Spacemacs configuration.
@@ -105,8 +168,8 @@ This function is called at the very end of Spacemacs initialization."
   ;; (global-set-key (kbd "C-k") 'company-complete-common)
   (define-key evil-insert-state-map (kbd "C-p") 'company-complete)
 
-  (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
-  (setq tab-always-indent 'complete)
+  ;; (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
+  ;; (setq tab-always-indent 'complete)
 
   ;; (smartparens-global-mode 1)
 
@@ -131,6 +194,14 @@ This function is called at the very end of Spacemacs initialization."
        (evil-ex-define-cmd "q" 'ido-kill-buffer)))
 
   ;; zshell
+  ;;; Use 'native' vim keybinding in zshell
+  (evil-set-initial-state 'term-mode 'emacs)
+  ;; (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (add-to-list 'term-bind-key-alist '("C-o" . evil-execute-in-normal-state))
+              (add-to-list 'term-bind-key-alist '("<escape>" . term-send-esc))))
+
   (setq multi-term-program "/bin/zsh")
   (setq multi-term-buffer-name "zshell")
   (setq multi-term-scroll-to-bottom-on-output 't)
@@ -144,8 +215,6 @@ This function is called at the very end of Spacemacs initialization."
     "\C-y" 'term-paste
     "\C-w" 'term-send-backward-kill-word)
 
-  (evil-define-key 'normal term-raw-map
-    "p" 'term-paste)
 
   ;; yasnippet
   (require 'yasnippet)
@@ -156,7 +225,7 @@ This function is called at the very end of Spacemacs initialization."
   (evil-define-key 'insert yas-minor-mode-map
     (kbd "C-k") 'yas-expand)
 
-  ;; Reload all the snippets at startup
+  ;;; Reload all the snippets at startup
   (yas/reload-all)
   (add-hook 'prog-mode-hook
             '(lambda ()
@@ -164,15 +233,18 @@ This function is called at the very end of Spacemacs initialization."
 
   (add-hook 'yas/prompt-functions 'shk-yas/helm-prompt)
 
-  ;;; Lang
+
+  ;; Lang
   (setq comment-auto-fill-only-comments t)
   (add-hook 'c-mode-hook
             (lambda ()
               (auto-fill-mode 1)))
 
   ;; python
-  ;; (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
-  ;; (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
+              (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)))
 
   ;; latex
   (setq latex-run-command "pdflatex")
@@ -183,7 +255,6 @@ This function is called at the very end of Spacemacs initialization."
 
   ;; whilte-space cleanup
   (require 'whitespace)
-  ;; (add-hook 'text-mode-hook 'prelude-enable-whitespace)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;;; Notes
@@ -208,13 +279,25 @@ This function is called at the very end of Spacemacs initialization."
 
   )
 
+;; OSX
+(defun mac-switch-meta nil
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+        (setq mac-option-modifier 'meta)
+        (setq mac-command-modifier 'super))
+    (progn
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta))))
+
 ;; org
 (defun dj-org-mode-defaults ()
   "DJ's hook for org-mode"
   (turn-on-auto-fill)
   (turn-on-org-cdlatex))
 
-;; Ausillary functions
+;; Copied from prelude to clear whitespace
 (defun prelude-cleanup-maybe ()
   "Invoke `whitespace-cleanup' if `prelude-clean-whitespace-on-save' is not nil."
   (when prelude-clean-whitespace-on-save
@@ -273,30 +356,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-ispell-requires 4)
+ '(ac-ispell-requires 4 t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- ;; '(company-backends
- ;;   (quote
- ;;    ((company-tern :with company-yasnippet)
- ;;     company-c-headers
- ;;     (company-anaconda :with company-yasnippet)
- ;;     (company-bbdb :with company-yasnippet)
- ;;     (company-nxml :with company-yasnippet)
- ;;     (company-css :with company-yasnippet)
- ;;     (company-eclim :with company-yasnippet)
- ;;     (company-clang :with company-yasnippet)
- ;;     ;; (company-clang)
- ;;     (company-xcode :with company-yasnippet)
- ;;     (company-cmake :with company-yasnippet)
- ;;     (company-capf :with company-yasnippet)
- ;;     (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
- ;;     (company-oddmuse :with company-yasnippet)
- ;;     (company-files :with company-yasnippet)
- ;;     (company-dabbrev :with company-yasnippet))))
  '(paradox-github-token t)
  '(pyim-dicts
    (quote
