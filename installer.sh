@@ -12,9 +12,13 @@ if [ ! -f ~/.zshrc ]; then
     ln -s ~/.dotfiles/.zshrc ~/.zshrc
 fi
 
-# spacemacs config
-if [ ! -f ~/.spacemacs ]; then
+# Install spacemacs
+if [ ! -d ~/.emacs.d ]; then
     git clone --recursive http://github.com/syl20bnr/spacemacs ~/.emacs.d
     mv .spacemacs .spacemacs.backup
+fi
+
+# spacemacs config
+if [ ! -f ~/.spacemacs ]; then
     ln -s ~/.dotfiles/.spacemacs ~/.spacemacs
 fi
