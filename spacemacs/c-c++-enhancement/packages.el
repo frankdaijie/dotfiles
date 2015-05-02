@@ -12,11 +12,11 @@
 
 (defvar c-c++-enhancement-packages
   '(
-    ;; package c-c++-enhancements go here
     irony
     company-irony
     helm-gtags
     company-c-headers
+    google-c-style
     )
   "List of all packages to install and/or initialize. Built-in packages
 which require an initialization must be listed explicitly in the list.")
@@ -42,7 +42,7 @@ which require an initialization must be listed explicitly in the list.")
       (add-hook 'c-mode-hook 'irony-mode)
       (add-hook 'objc-mode-hook 'irony-mode)
 
-      (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+      ;; (add-hook 'irony-mode-hook 'my-irony-mode-hook)
       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))))
 
 (defun c-c++-enhancement/init-company-irony ()
@@ -68,9 +68,10 @@ which require an initialization must be listed explicitly in the list.")
   (use-package company-c-headers
     :defer t
     :config
-    (cond
-     ((system-is-mac) (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.2.1/"))
-     ((system-is-linux) (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")))
+    (add-to-list 'company-c-headers-path-system
+                 (cond
+                  ((system-is-mac) "/usr/include/c++/4.2.1/")
+                  ((system-is-linux) "/usr/include/c++/4.8/")))
     ))
 
 (defun c-c++-enhancement/init-helm-gtags ()
@@ -123,6 +124,14 @@ which require an initialization must be listed explicitly in the list.")
       "o>" 'helm-gtags-next-history)
     ))
 
+(defun c-c++-enhancement/init-google-c-style ()
+  (use-package google-c-style
+    :config
+    (progn
+      (add-hook 'c-mode-hook 'google-set-c-style)
+      (add-hook 'c++-mode-hook 'google-set-c-style)
+      )
+    ))
 
 (defun my-irony-mode-hook ()
   (define-key irony-mode-map [remap completion-at-point]
