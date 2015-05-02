@@ -148,7 +148,8 @@ before layers configuration."
   (setq-default c-default-style "linux"
                 c-toggle-hungry-state 1
                 c-toggle-auto-newline -1)
-  (mac-switch-meta)
+
+  (when (string-equal system-type "darwin") (mac-switch-meta))
   )
 
 (defun dotspacemacs/config ()
