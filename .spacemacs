@@ -78,11 +78,18 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro for Powerline"
-                               :size 13
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+   dotspacemacs-default-font (if (string-equal system-type "gnu/linux")
+                               '("Source Code Pro for Powerline"
+                                 :size 13
+                                 :weight semi-bold
+                                 :width normal
+                                 :powerline-scale 1.1)
+                               '("Source Code Pro for Powerline"
+                                 :size 13
+                                 :weight normal
+                                 :width normal
+                                 :powerline-scale 1.1))
+
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -149,6 +156,7 @@ before layers configuration."
                 c-toggle-hungry-state 1
                 c-toggle-auto-newline -1)
 
+
   (when (string-equal system-type "darwin") (mac-switch-meta))
   )
 
@@ -167,7 +175,7 @@ This function is called at the very end of Spacemacs initialization."
   ;; (setq company-quickhelp-max-lines 10)
   ;; (global-set-key (kbd "s-i") 'company-complete-common)
   ;; (global-set-key (kbd "C-k") 'company-complete-common)
-  (define-key evil-insert-state-map (kbd "C-p") 'company-complete)
+  (define-key evil-insert-state-map (kbd "C-l") 'company-complete)
 
   ;; (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
   ;; (setq tab-always-indent 'complete)
@@ -198,9 +206,10 @@ This function is called at the very end of Spacemacs initialization."
   ;;; Use 'native' vim keybinding in zshell
   (evil-set-initial-state 'term-mode 'emacs)
   ;; (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
+
+  (define-key evil-emacs-state-map (kbd "C-o") 'evil-execute-in-normal-state)
   (add-hook 'term-mode-hook
             (lambda ()
-              (add-to-list 'term-bind-key-alist '("C-o" . evil-execute-in-normal-state))
               (add-to-list 'term-bind-key-alist '("<escape>" . term-send-esc))))
 
   (setq multi-term-program "/bin/zsh")
@@ -222,9 +231,9 @@ This function is called at the very end of Spacemacs initialization."
   (yas/global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "C-k") 'yas-expand)
+  (define-key yas-minor-mode-map (kbd "C-p") 'yas-expand)
   (evil-define-key 'insert yas-minor-mode-map
-    (kbd "C-k") 'yas-expand)
+    (kbd "C-p") 'yas-expand)
 
   ;;; Reload all the snippets at startup
   (yas/reload-all)
@@ -369,11 +378,3 @@ This function is called at the very end of Spacemacs initialization."
     ((:name "BigDict-01" :file "/Users/DJ/.emacs.d/pyim/dicts/pyim-bigdict.pyim" :coding utf-8-unix))))
  '(pyim-use-tooltip nil)
  '(ring-bell-function (quote ignore) t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
