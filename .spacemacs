@@ -80,7 +80,7 @@ before layers configuration."
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font (if (string-equal system-type "gnu/linux")
                                '("Source Code Pro for Powerline"
-                                 :size 13
+                                 :size 14
                                  :weight semi-bold
                                  :width normal
                                  :powerline-scale 1.1)
@@ -89,7 +89,6 @@ before layers configuration."
                                  :weight normal
                                  :width normal
                                  :powerline-scale 1.1))
-
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -204,14 +203,6 @@ This function is called at the very end of Spacemacs initialization."
 
   ;; zshell
   ;;; Use 'native' vim keybinding in zshell
-  (evil-set-initial-state 'term-mode 'emacs)
-  ;; (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
-
-  (define-key evil-emacs-state-map (kbd "C-o") 'evil-execute-in-normal-state)
-  (add-hook 'term-mode-hook
-            (lambda ()
-              (add-to-list 'term-bind-key-alist '("<escape>" . term-send-esc))))
-
   (setq multi-term-program "/bin/zsh")
   (setq multi-term-buffer-name "zshell")
   (setq multi-term-scroll-to-bottom-on-output 't)
@@ -223,7 +214,8 @@ This function is called at the very end of Spacemacs initialization."
 
   (evil-define-key 'insert term-raw-map
     "\C-y" 'term-paste
-    "\C-w" 'term-send-backward-kill-word)
+    "\C-w" 'term-send-backward-kill-word
+    "\C-]" 'term-send-esc)
 
 
   ;; yasnippet
