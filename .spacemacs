@@ -32,6 +32,7 @@
      python
      ruby
      syntax-checking
+     vagrant
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -261,24 +262,10 @@ This function is called at the very end of Spacemacs initialization."
 
   ;;; Notes
   ;; org
-  ;; (eval-after-load 'org
-  ;;   (progn
-  ;;     ;; (setq org-adapt-indentation nil)
-  ;;     (setq org-src-fontify-natively t)
-  ;;     ;; (setq org-startup-indented t)
-  ;;     (setq org-fontify-quote-and-verse-blocks t)
-  ;;     (setq org-use-speed-commands t)))
-
   (setq org-src-fontify-natively t)
   (setq org-fontify-quote-and-verse-blocks t)
   (evil-define-key 'normal evil-org-mode-map
     "O" 'evil-open-above)
-
-  ;; (setq dj-org-mode-hook 'dj-org-mode-defaults)
-  ;; (add-hook 'org-mode-hook
-  ;;           (lambda ()
-  ;;             (run-hooks 'dj-org-mode-hook)))
-
   )
 
 ;; OSX
