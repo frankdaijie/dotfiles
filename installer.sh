@@ -6,8 +6,11 @@ if [ ! -f ~/.bashrc ]; then
 fi
 
 # Zshell config
-if [ ! -f ~/.zshrc ]; then
+if [ ! -d ~/.oh-my-zsh ]; then
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+fi
+
+if [ ! -f ~/.zshrc ]; then
     mv .zshrc .zshrc.backup
     ln -s ~/.dotfiles/.zshrc ~/.zshrc
 fi
