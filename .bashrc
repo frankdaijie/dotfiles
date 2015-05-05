@@ -14,4 +14,6 @@
 . ~/.dotfiles/shell/others.zsh
 
 # Local Config
-. ~/.dotfiles/shell/local.zsh
+if [ -f ~/.dotfiles/shell/local.zsh ]; then
+    . ~/.dotfiles/shell/local.zsh
+fi
