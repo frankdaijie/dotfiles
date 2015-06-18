@@ -10,17 +10,15 @@
 ;;
 ;;; License: GPLv3
 
-(defvar irony-pre-extensions
+(setq irony-pre-extensions
   '(
     ;; pre extension ironys go here
-    )
-  "List of all extensions to load before the packages.")
+    ))
 
-(defvar irony-post-extensions
+(setq irony-post-extensions
   '(
     ;; post extension ironys go here
-    )
-  "List of all extensions to load after the packages.")
+    ))
 
 ;; For each extension, define a function irony/init-<extension-irony>
 ;;
