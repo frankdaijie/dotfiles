@@ -6,8 +6,8 @@
   "Configuration Layers declaration."
   (setq-default
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (ie. `~/.dotfiles/spacemacs')
-   dotspacemacs-configuration-layer-path '()
+   ;; Paths must have a trailing slash (ie. `~/.mycontribs/')
+   dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs/")
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -20,16 +20,25 @@
      auctex
      auto-completion
      better-defaults
-     c-c++
+     chinese-pyim
+     (c-c++ :variables
+            c-c++-enable-clang-support t
+            c-c++-default-mode-for-headers 'c++-mode)
+     c-c++-irony
      emacs-lisp
+     evernote
      (git :variables
           git-gutter-use-fringe t)
+     gtags
      markdown
      python
      ruby
      org
+     osx
+     semantic
      shell
      syntax-checking
+     thrift
      )
    ;; List of additional packages that will be installed wihout being
    ;; wrapped in a layer. If you need some configuration for these
@@ -68,9 +77,10 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(zenburn
-                         solarized-light
+   dotspacemacs-themes '(
+                         zenburn
                          solarized-dark
+                         solarized-light
                          leuven
                          monokai)
    ;; If non nil the cursor color matches the state color.
@@ -155,6 +165,10 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
+  (setq-default line-spacing 3)
+  (setq-default c-default-style "linux"
+                c-toggle-hungry-state 1
+                c-toggle-auto-newline -1)
   )
 
 
@@ -162,27 +176,33 @@ before layers configuration."
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
 
-  (eval-after-load 'flycheck
-    '(setq flycheck-check-syntax-automatically '(save
-                                                 idle-change
-                                                 mode-enabled
-                                                 new-line)))
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  ;; Also in visual mode
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+  ;; (eval-after-load 'flycheck
+  ;;   '(setq flycheck-check-syntax-automatically '(save
+  ;;                                                idle-change
+  ;;                                                mode-enabled
+  ;;                                                new-line)))
   ;; (eval-after-load 'company
   ;;   '(lambda ()
   ;;      (setq company-idle-delay 0.1)))
   ;; (setq company-quickhelp-max-lines 10)
   ;; (global-set-key (kbd "s-i") 'company-complete-common)
   ;; (global-set-key (kbd "C-k") 'company-complete-common)
-  (define-key evil-insert-state-map (kbd "C-l") 'company-complete)
+  ;; (define-key evil-insert-state-map (kbd "C-l") 'company-complete)
 
   ;; (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
   ;; (setq tab-always-indent 'complete)
 
-  ;; (smartparens-global-mode 1)
 
   (setq powerline-default-separator 'arrow)
   (set-face-attribute 'region nil :foreground "white" :background "#Aa7941")
 
+  (global-set-key (kbd "C-c \\")  'align-regexp)
   (global-set-key (kbd "M-x")     'helm-M-x)
   (global-set-key (kbd "C-x C-m") 'helm-M-x)
   (global-set-key (kbd "C-x m")   'eshell)
@@ -200,6 +220,29 @@ This function is called at the very end of Spacemacs initialization."
        (evil-ex-define-cmd "b" 'helm-buffers-list)
        (evil-ex-define-cmd "q" 'ido-kill-buffer)))
 
+  ;; semantic
+  ;; (eval-after-load 'semantic
+  ;;   '(global-semantic-idle-summary-mode 0)
+  ;;   )
+  (defun my-enable-semantic-mode (ori-func &rest args)
+    (let ((hook (intern (concat (symbol-name mode) "-hook"))))
+      (add-hook hook (lambda ()
+                       (require 'semantic)
+                       (add-to-list 'semantic-default-submodes
+                                    'global-semantic-stickyfunc-mode)
+                       (global-semantic-idle-summary-mode 0)
+                       (semantic-mode 1)))))
+
+  (advice-add 'semantic/enable-semantic-mode :around #'my-enable-semantic-mode)
+
+  ;; thrift
+  ;; (use-package thrift)
+
+  ;; yasnippet
+  (eval-after-load 'yasnippet
+    '(add-hook 'yas/prompt-functions 'shk-yas/helm-prompt))
+
+
   ;; zshell
   ;;; Use 'native' vim keybinding in zshell
   (setq multi-term-program "/bin/zsh")
@@ -216,38 +259,35 @@ This function is called at the very end of Spacemacs initialization."
     "\C-w" 'term-send-backward-kill-word
     "\C-]" 'term-send-esc)
 
-
-  ;; yasnippet
-  (require 'yasnippet)
-  (yas/global-mode t)
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "C-p") 'yas-expand)
-  (evil-define-key 'insert yas-minor-mode-map
-    (kbd "C-p") 'yas-expand)
-
-  ;;; Reload all the snippets at startup
-  (yas/reload-all)
-  (add-hook 'prog-mode-hook
-            '(lambda ()
-               (yas-minor-mode)))
-
-  (add-hook 'yas/prompt-functions 'shk-yas/helm-prompt)
+  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
 
   ;; Lang
+  ;;; c++
   (setq comment-auto-fill-only-comments t)
+  (eval-after-load 'flycheck
+    '(setq flycheck-clang-args '("-stdlib=libstdc++" "-std=c++11")))
   (add-hook 'c-mode-hook
             (lambda ()
               (auto-fill-mode 1)))
 
-  ;; python
+  ;;; python
+  (defun my-anaconda-mode-python (orig-fun &rest args)
+    "Replace python2 to python3"
+    (let ((python (if (eq system-type 'windows-nt) "pythonw" "python3"))
+          (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
+      (--if-let anaconda-mode-virtualenv-variable
+          (f-join it bin-dir python)
+        python)))
+
+  (advice-add 'anaconda-mode-python :around #'my-anaconda-mode-python)
+
   (add-hook 'python-mode-hook
             (lambda ()
               (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
               (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)))
 
-  ;; latex
+  ;;; latex
   (setq latex-run-command "pdflatex")
   (add-hook 'text-mode-hook
             (lambda ()
@@ -258,7 +298,6 @@ This function is called at the very end of Spacemacs initialization."
   (require 'whitespace)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-  ;;; Notes
   ;; org
   (setq org-src-fontify-natively t)
   (setq org-fontify-quote-and-verse-blocks t)
@@ -334,3 +373,28 @@ This function is called at the very end of Spacemacs initialization."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-idle-timer 0 t)
+ '(ahs-inhibit-face-list nil)
+ '(paradox-github-token t)
+ '(pyim-dicts
+   (quote
+    ((:name "BigDict-01" :file "/Users/DJ/.emacs.d/pyim/dicts/pyim-bigdict.pyim" :coding utf-8-unix))))
+ '(python-shell-interpreter "ipython3")
+ '(ring-bell-function (quote ignore) t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(eldoc-highlight-function-argument ((t (:inherit bold :foreground "light salmon")))))
