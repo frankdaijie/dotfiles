@@ -42,11 +42,14 @@ export UPDATE_ZSH_DAYS=13
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew autojump vi-mode pip vagrant clang)
+plugins=(git brew autojump vi-mode pip vagrant clang fasd)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
+
+export DOTFILES=$HOME/.dotfiles
+
 export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
 export TERM=xterm-256color
 
