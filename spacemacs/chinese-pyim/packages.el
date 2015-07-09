@@ -10,21 +10,34 @@
 ;;
 ;;; License: GPLv3
 
-(defvar chinese-pyim-packages
+(setq chinese-pyim-packages
   '(
     ;; package chinese-pyims go here
     chinese-pyim
-    )
-  "List of all packages to install and/or initialize. Built-in packages
-which require an initialization must be listed explicitly in the list.")
+    ;; chinese-pyim-company
+    ))
 
-(defvar chinese-pyim-excluded-packages '()
-  "List of packages to exclude.")
+(setq chinese-pyim-excluded-packages '()
+  )
 
 (defun chinese-pyim/init-chinese-pyim ()
-  ;; (setq pyim-use-tooltip nil)
-  (require 'chinese-pyim)
+  ;; (use-package chinese-pyim
+  ;;   :config
 
+  ;;   (setq pyim-use-tooltip nil)
+  ;;   (pyim-toggle-full-width-punctuation nil)
+  ;;   )
+  (require 'chinese-pyim)
+  ;; (require 'chinese-pyim-company)
+
+  ;; use the bottom bar to display the work
+  (setq pyim-use-tooltip nil)
+
+  ;; use half width punctuation (for english input convenience)
+  ;; (pyim-toggle-full-width-punctuation nil)
+  (eval-after-load 'chinese-pyim
+    `(setq pyim-punctuation-trasnlate-p nil)
+    )
   )
 ;; For each package, define a function chinese-pyim/init-<package-chinese-pyim>
 ;;

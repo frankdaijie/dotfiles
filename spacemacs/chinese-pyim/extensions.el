@@ -10,17 +10,17 @@
 ;;
 ;;; License: GPLv3
 
-(defvar chinese-pyim-pre-extensions
+(setq chinese-pyim-pre-extensions
   '(
     ;; pre extension chinese-pyims go here
     )
-  "List of all extensions to load before the packages.")
+  )
 
-(defvar chinese-pyim-post-extensions
+(setq chinese-pyim-post-extensions
   '(
     ;; post extension chinese-pyims go here
     )
-  "List of all extensions to load after the packages.")
+  )
 
 ;; For each extension, define a function chinese-pyim/init-<extension-chinese-pyim>
 ;;
