@@ -54,8 +54,6 @@
      version-control
 
      ;; windows management
-     ;; (perspectives :variables
-     ;;               perspective-enable-persp-projectile t)
      eyebrowse
      )
    ;; List of additional packages that will be installed wihout being
