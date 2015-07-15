@@ -291,7 +291,7 @@ This function is called at the very end of Spacemacs initialization."
   (eval-after-load 'flycheck
     '(progn
        (setq flycheck-clang-args '("-stdlib=libstdc++"))
-       (setq flycheck-clang-language-standard '("c++11"))))
+       (setq flycheck-clang-language-standard "c++11")))
   ;; (setq flycheck-clang-language-standard "c++11")
   (add-hook 'c-mode-hook
             (lambda ()
