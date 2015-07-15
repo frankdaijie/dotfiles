@@ -15,6 +15,7 @@
     irony
     company-irony
     company-c-headers
+    irony-eldoc
     google-c-style
     )
 )
@@ -80,6 +81,9 @@
       (add-hook 'c++-mode-hook 'google-set-c-style)
       )
     ))
+
+(defun c-c++-irony/init-irony-eldoc ()
+  (use-package irony-eldoc))
 
 (defun my-irony-mode-hook ()
   (define-key irony-mode-map [remap completion-at-point]
