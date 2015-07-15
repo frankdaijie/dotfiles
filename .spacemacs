@@ -301,41 +301,41 @@ This function is called at the very end of Spacemacs initialization."
               (auto-fill-mode 1)))
 
   ;;; python
-  (defun python3-anaconda-mode (orig-fun &rest args)
-    "Replace python2 to python3"
-    (let ((python (if (eq system-type 'windows-nt) "pythonw" "python3"))
-          (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
-      (--if-let anaconda-mode-virtualenv-variable
-          (f-join it bin-dir python)
-        python)))
+  ;; (defun python3-anaconda-mode (orig-fun &rest args)
+  ;;   "Replace python2 to python3"
+  ;;   (let ((python (if (eq system-type 'windows-nt) "pythonw" "python3"))
+  ;;         (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
+  ;;     (--if-let anaconda-mode-virtualenv-variable
+  ;;         (f-join it bin-dir python)
+  ;;       python)))
 
-  (defun python2-anaconda-mode (orig-fun &rest args)
-    (let ((python (if (eq system-type 'windows-nt) "pythonw" "python"))
-          (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
-      (--if-let anaconda-mode-virtualenv-variable
-          (f-join it bin-dir python)
-        python)))
+  ;; (defun python2-anaconda-mode (orig-fun &rest args)
+  ;;   (let ((python (if (eq system-type 'windows-nt) "pythonw" "python"))
+  ;;         (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
+  ;;     (--if-let anaconda-mode-virtualenv-variable
+  ;;         (f-join it bin-dir python)
+  ;;       python)))
 
-  (defvar anaconda-mode-is-python2 t)
+  ;; (defvar anaconda-mode-is-python2 t)
 
-  (defun switch-anaconda-python2-python3 ()
-    (interactive)
-    (if anaconda-mode-is-python2
-        (progn
-          (setq anaconda-mode-is-python2 nil)
-          (advice-add 'anaconda-mode-python :around #'python3-anaconda-mode)
-          (message "anaconda mode: python 3"))
-      (progn
-        (setq anaconda-mode-is-python2 t)
-        (advice-add 'anaconda-mode-python :around #'python2-anaconda-mode)
-        (message "anaconda mode: python 2"))))
+  ;; (defun switch-anaconda-python2-python3 ()
+  ;;   (interactive)
+  ;;   (if anaconda-mode-is-python2
+  ;;       (progn
+  ;;         (setq anaconda-mode-is-python2 nil)
+  ;;         (advice-add 'anaconda-mode-python :around #'python3-anaconda-mode)
+  ;;         (message "anaconda mode: python 3"))
+  ;;     (progn
+  ;;       (setq anaconda-mode-is-python2 t)
+  ;;       (advice-add 'anaconda-mode-python :around #'python2-anaconda-mode)
+  ;;       (message "anaconda mode: python 2"))))
 
   ;; (advice-add 'anaconda-mode-python :around #'my-anaconda-mode-python)
 
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
-              (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)))
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
+  ;;             (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)))
 
   ;;; latex
   (setq latex-run-command "pdflatex")
