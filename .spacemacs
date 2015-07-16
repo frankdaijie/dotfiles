@@ -105,22 +105,11 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   ;; dotspacemacs-default-font (if (string-equal system-type "gnu/linux")
-   ;;                                '("Source Code Pro for Powerline"
-   ;;                                  :size 13
-   ;;                                  :weight normal
-   ;;                                  :width normal
-   ;;                                  :powerline-scale 1.1)
-   ;;                              '("Source Code Pro for Powerline"
-   ;;                                :size 13
-   ;;                                :weight normal
-   ;;                                :width normal
-   ;;                                :powerline-scale 1.1))
-   dotspacemacs-default-font ('("Source Code Pro for Powerline"
-                                :size 131
-                                :weight normal
-                                :width normal
-                                :powerline-scale 1.1))
+   dotspacemacs-default-font '("Source Code Pro for Powerline"
+                               :size 13
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
