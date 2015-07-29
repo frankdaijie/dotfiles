@@ -292,6 +292,13 @@ This function is called at the very end of Spacemacs initialization."
               (auto-fill-mode 1)))
 
   ;;; python
+  ;; (defun python/auto-fill-mode ()
+  ;;   (interactive)
+  ;;   (auto-fill-mode))
+  ;; (add-hook 'python-mode-hook 'auto-fill-mode)
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (auto-fill-mode)))
   ;; (defun python3-anaconda-mode (orig-fun &rest args)
   ;;   "Replace python2 to python3"
   ;;   (let ((python (if (eq system-type 'windows-nt) "pythonw" "python3"))
