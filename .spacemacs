@@ -333,6 +333,29 @@ This function is called at the very end of Spacemacs initialization."
   (setq bibtex-align-at-equal-sign t)
   (evil-leader/set-key-for-mode 'latex-mode
     "m_" 'TeX-master-file-ask)
+
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+
+  ;; Use Skim as viewer, enable source <-> PDF sync
+  ;; make latexmk available via C-c C-c
+  ;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
+  (add-hook 'LaTeX-mode-hook (lambda ()
+                               (push
+                                '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+                                  :help "Run latexmk on file")
+                                TeX-command-list)))
+  (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+
+  ;; use Skim as default pdf viewer
+  ;; Skim's displayline is used for forward search (from .tex to .pdf)
+  ;; option -b highlights the current line; option -g opens Skim in the background
+  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  (setq TeX-view-program-list
+        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+  ;; (setq TeX-view-program-list
+  ;;       '(("Skim" "/Applications/Skim.app/Contents/MacOS/Skim %q")))
   ;; (add-hook 'TeX-mode-hook '(lambda ()
   ;;                          (spacemacs/toggle-visual-line-navigation)))
   ;; (add-hook 'LaTeX-mode-hook '(lambda ()
@@ -432,29 +455,41 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-view-program-list
-   (quote
-    (("skim"
-      ("")
-      "/Applications/Skim.app/Contents/MacOS/Skim"))))
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(compilation-message-face (quote default))
  '(flycheck-clang-language-standard "c++11")
+ '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
+ '(highlight-tail-colors
+   (quote
+    (("#49483E" . 0)
+     ("#67930F" . 20)
+     ("#349B8D" . 30)
+     ("#21889B" . 50)
+     ("#968B26" . 60)
+     ("#A45E0A" . 70)
+     ("#A41F99" . 85)
+     ("#49483E" . 100))))
+ '(magit-diff-use-overlays nil)
  '(paradox-github-token t)
  '(preview-TeX-style-dir "/Users/DJ/.emacs.d/elpa/auctex-11.88.6/latex")
  '(pyim-dicts
    (quote
     ((:name "BigDict-01" :file "/Users/DJ/.emacs.d/pyim/dicts/pyim-bigdict.pyim" :coding utf-8-unix))))
- ;; '(python-shell-interpreter "ipython3")
- '(ring-bell-function (quote ignore) t))
+ '(ring-bell-function (quote ignore) t)
+ '(weechat-color-list
+   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro for Powerline" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(eldoc-highlight-function-argument ((t (:inherit bold :foreground "light salmon")))))
