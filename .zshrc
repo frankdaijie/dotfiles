@@ -9,6 +9,7 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
 
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -59,10 +60,23 @@ alias jj="fasd_cd -d -i"
 # magic-space
 bindkey " " magic-space
 
+# fish-like autocomplete
+# Load zsh-syntax-highlighting.
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Load zsh-autosuggestions.
+source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
+
+# Enable autosuggestions automatically.
+zle-line-init() {
+    zle autosuggest-start
+}
+zle -N zle-line-init
+
 
 # Emacs
 if [ -n "$INSIDE_EMACS" ]; then
-    export ZSH_THEME="rawsyntax"
+    export ZSH_THEME="agnoster"
     chpwd() { print -P "\033AnSiTc %d" }
     print -P "\033AnSiTu %n"
     print -P "\033AnSiTc %d"

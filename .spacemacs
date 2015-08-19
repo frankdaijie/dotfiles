@@ -44,6 +44,7 @@
      auto-completion
      evernote
      fasd
+     ;; fixmee
      gtags
      semantic
      syntax-checking
@@ -55,6 +56,8 @@
 
      ;; windows management
      eyebrowse
+     ;; (perspectives :variables
+     ;;               perspective-enable-persp-projectile t)
      )
    ;; List of additional packages that will be installed wihout being
    ;; wrapped in a layer. If you need some configuration for these
@@ -184,7 +187,7 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
-  (setq-default line-spacing 3)
+  ;; (setq-default line-spacing 2)
   (setq-default c-default-style "linux"
                 c-toggle-hungry-state 1
                 c-toggle-auto-newline -1)
@@ -238,6 +241,8 @@ This function is called at the very end of Spacemacs initialization."
        (define-key evil-ex-map "e" 'helm-find-files)
        (evil-ex-define-cmd "b" 'helm-buffers-list)
        (evil-ex-define-cmd "q" 'ido-kill-buffer)))
+  (evil-leader/set-key
+    "&" 'async-shell-command)
 
   ;; semantic
   ;; (eval-after-load 'semantic
@@ -269,7 +274,14 @@ This function is called at the very end of Spacemacs initialization."
   (global-set-key (kbd "s-}") 'multi-term-next)
   (global-set-key (kbd "s-{") 'multi-term-prev)
 
+  (defun term-send-towards-end-of-line ()
+    "Towards the end of line"
+    (interactive)
+    (term-send-raw-string "\C-e"))
+
   (evil-define-key 'insert term-raw-map
+    "\C-e" 'term-send-towards-end-of-line
+    (kbd "s-v")  'term-paste
     "\C-y" 'term-paste
     "\C-w" 'term-send-backward-kill-word
     "\C-]" 'term-send-esc)
@@ -279,17 +291,20 @@ This function is called at the very end of Spacemacs initialization."
   ;; Lang
   ;;; c++
   (setq comment-auto-fill-only-comments t)
-  (eval-after-load 'flycheck
-    '(progn
-       (setq flycheck-clang-args '("-stdlib=libstdc++"))
-       (setq flycheck-clang-language-standard "c++11")))
-  ;; (setq flycheck-clang-language-standard "c++11")
+  ;; (eval-after-load 'flycheck
+  ;;   '(progn
+  ;;      (setq flycheck-clang-args '("-stdlib=libstdc++"))))
+
+
   (add-hook 'c-mode-hook
             (lambda ()
               (auto-fill-mode 1)))
+
   (add-hook 'c++-mode-hook
             (lambda ()
-              (auto-fill-mode 1)))
+              (auto-fill-mode 1)
+              (setq flycheck-clang-args '("-stdlib=libstdc++"))
+              (setq flycheck-clang-language-standard "c++11")))
 
   ;;; python
   ;; (defun python/auto-fill-mode ()
@@ -341,7 +356,7 @@ This function is called at the very end of Spacemacs initialization."
   (evil-leader/set-key-for-mode 'latex-mode
     "m_" 'TeX-master-file-ask)
 
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 
   ;; Use Skim as viewer, enable source <-> PDF sync
@@ -387,6 +402,8 @@ This function is called at the very end of Spacemacs initialization."
   (evil-leader/set-key
     "ods" 'desktop-save-in-desktop-dir
     "odr" 'desktop-read)
+
+  ;; (indent-guide-global-mode)
   )
 
 ;; OSX
@@ -467,36 +484,15 @@ This function is called at the very end of Spacemacs initialization."
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(compilation-message-face (quote default))
- '(flycheck-clang-language-standard "c++11")
- '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
- '(highlight-tail-colors
-   (quote
-    (("#49483E" . 0)
-     ("#67930F" . 20)
-     ("#349B8D" . 30)
-     ("#21889B" . 50)
-     ("#968B26" . 60)
-     ("#A45E0A" . 70)
-     ("#A41F99" . 85)
-     ("#49483E" . 100))))
- '(magit-diff-use-overlays nil)
  '(paradox-github-token t)
- '(preview-TeX-style-dir "/Users/DJ/.emacs.d/elpa/auctex-11.88.6/latex")
+ '(preview-TeX-style-dir "/Users/DJ/.emacs.d/elpa/auctex-11.88.6/latex" t)
  '(pyim-dicts
    (quote
     ((:name "BigDict-01" :file "/Users/DJ/.emacs.d/pyim/dicts/pyim-bigdict.pyim" :coding utf-8-unix))))
- '(ring-bell-function (quote ignore) t)
- '(weechat-color-list
-   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+ '(ring-bell-function (quote ignore) t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro for Powerline" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(eldoc-highlight-function-argument ((t (:inherit bold :foreground "light salmon")))))
