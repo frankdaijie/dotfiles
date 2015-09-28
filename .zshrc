@@ -1,4 +1,3 @@
-. ~/.bashrc
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -43,19 +42,19 @@ export UPDATE_ZSH_DAYS=13
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip vagrant clang fasd)
+plugins=(git brew pip vagrant clang fasd autojump)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
+. ~/.bashrc
 
 export DOTFILES=$HOME/.dotfiles
 export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
-export TERM=xterm-256color
 
 # fasd
-alias j="fasd_cd -d"
-alias jj="fasd_cd -d -i"
+# alias j="fasd_cd -d"
+# alias jj="fasd_cd -d -i"
 
 # magic-space
 bindkey " " magic-space
