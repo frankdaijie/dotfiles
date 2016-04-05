@@ -1,4 +1,3 @@
-
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -42,52 +41,18 @@ export UPDATE_ZSH_DAYS=13
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip vagrant clang fasd autojump)
+plugins=(git brew pip clang fasd)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-. ~/.bashrc
+export CUSTOM_HOME=~/.dotfiles/
+source $CUSTOM_HOME/custom.sh
 
-export DOTFILES=$HOME/.dotfiles
-export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
+# export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
 
-# fasd
-# alias j="fasd_cd -d"
-# alias jj="fasd_cd -d -i"
-
-# magic-space
-bindkey " " magic-space
-
-# fish-like autocomplete
-# Load zsh-syntax-highlighting.
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Load zsh-autosuggestions.
-source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
-
-# Enable autosuggestions automatically.
-zle-line-init() {
-    zle autosuggest-start
-}
-zle -N zle-line-init
+# DEFAULT_USER="DJ"
+# fpath=(/usr/local/share/zsh-completions $fpath)
 
 
-# Emacs
-if [ -n "$INSIDE_EMACS" ]; then
-    export ZSH_THEME="agnoster"
-    chpwd() { print -P "\033AnSiTc %d" }
-    print -P "\033AnSiTu %n"
-    print -P "\033AnSiTc %d"
-else
-    export ZSH_THEME="robbyrussell"
-fi
-
-[[ $EMACS = t ]] && unsetopt zle
-
-DEFAULT_USER="DJ"
-fpath=(/usr/local/share/zsh-completions $fpath)
-
-# alias | grep ' ' | grep '^[^l]' | sed -E "s/^([^=]+)='(.*)'$/alias \1 \2/g; s/'\\\''/'/g;" >~/.emacs.d/savefile/eshell/alias
-
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'

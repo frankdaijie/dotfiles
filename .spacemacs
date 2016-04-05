@@ -13,7 +13,7 @@ values."
    dotspacemacs-distribution 'spacemacs
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs/")
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -23,33 +23,34 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
-     better-defaults
-     (c-c++ :variables
-            c-c++-enable-clang-support t
-            c-c++-default-mode-for-headers 'c++-mode)
+     (auto-completion :disabled-for org git)
+     better-default
+     (chinese :variables
+             chinese-enable-fcitx t)
      emacs-lisp
      eyebrowse
      deft
      fasd
      git
+     html
+     javascript
      latex
      markdown
      python
      org
+     org-download
+     osx
      (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom
-            shell-enable-smart-eshell t
-            shell-default-shell 'eshell)
+            shell-default-shell 'multi-term)
      spell-checking
-     syntax-checking
+     (syntax-checking :variables
+                      syntax-checking-enable-tooltips nil)
      version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
-   ;; packages then consider to create a layer, you can also put the
-   ;; configuration in `dotspacemacs/config'.
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -67,6 +68,18 @@ values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
+   ;; possible. Set it to nil if you have no way to use HTTPS in your
+   ;; environment, otherwise it is strongly recommended to let it set to t.
+   ;; This variable has no effect if Emacs is launched with the parameter
+   ;; `--insecure' which forces the value of this variable to nil.
+   ;; (default t)
+   dotspacemacs-elpa-https t
+   ;; Maximum allowed time in seconds to contact an ELPA repository.
+   dotspacemacs-elpa-timeout 5
+   ;; If non nil then spacemacs will check for updates at startup
+   ;; when the current branch is not `develop'. (default t)
+   dotspacemacs-check-for-update t
    ;; One of `vim', `emacs' or `hybrid'. Evil is always enabled but if the
    ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
@@ -85,16 +98,21 @@ values."
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
    dotspacemacs-startup-lists '(recents projects)
+   ;; Number of recent files to show in the startup buffer. Ignored if
+   ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
+   dotspacemacs-startup-recent-list-size 5
+   ;; Default major mode of the scratch buffer (default `text-mode')
+   dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(zenburn
-                         spacemacs-dark
+   dotspacemacs-themes '(
                          spacemacs-light
-                         solarized-light
+                         spacemacs-dark
                          solarized-dark
-                         leuven
-                         monokai)
+                         solarized-light
+                         zenburn
+                         leuven)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -115,21 +133,41 @@ values."
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; These variables control whether separate commands are bound in the GUI to
+   ;; the key pairs C-i, TAB and C-m, RET.
+   ;; Setting it to a non-nil value, allows for separate commands under <C-i>
+   ;; and TAB or <C-m> and RET.
+   ;; In the terminal, these pairs are generally indistinguishable, so this only
+   ;; works in the GUI. (default nil)
+   dotspacemacs-distinguish-gui-tab nil
+   ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
    ;; The command key used for Evil commands (ex-commands) and
    ;; Emacs commands (M-x).
    ;; By default the command key is `:' so ex-commands are executed like in Vim
    ;; with `:' and Emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
+   ;; If non nil `Y' is remapped to `y$'. (default t)
+   dotspacemacs-remap-Y-to-y$ t
+   ;; Name of the default layout (default "Default")
+   dotspacemacs-default-layout-name "Default"
+   ;; If non nil the default layout name is displayed in the mode-line.
+   ;; (default nil)
+   dotspacemacs-display-default-layout nil
+   ;; If non nil then the last auto saved layouts are resume automatically upon
+   ;; start. (default nil)
+   dotspacemacs-auto-resume-layouts nil
    ;; Location where to auto-save files. Possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
+   ;; Maximum number of rollback slots to keep in the cache. (default 5)
+   dotspacemacs-max-rollback-slots 5
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
-   ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
+   ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
@@ -176,6 +214,10 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
+   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
+   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; (default nil)
+   dotspacemacs-line-numbers nil
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -194,94 +236,44 @@ values."
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
    dotspacemacs-default-package-repository nil
+   ;; Delete whitespace while saving buffer. Possible values are `all'
+   ;; to aggressively delete empty line and long sequences of whitespace,
+   ;; `trailing' to delete only the whitespace at end of lines, `changed'to
+   ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; (default nil)
+   dotspacemacs-whitespace-cleanup nil
    ))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
-It is called immediately after `dotspacemacs/init'.  You are free to put any
-user code."
+It is called immediately after `dotspacemacs/init'.  You are free to put almost
+any user code here.  The exception is org related code, which should be placed
+in `dotspacemacs/user-config'."
+
+  ;; This is a workaround to prevent Spacemacs from hanging in startup.
+  ;; This is basically due to Helm using Tramp.
+  ;; https://github.com/syl20bnr/spacemacs/blob/develop/doc/FAQ.org#why-is-spacemacs-hanging-on-startup
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
+This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
-  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  ;; Also in visual mode
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-  ;; (setq-default evil-cross-lines t)
-
-  ;; (eval-after-load 'company
-  ;;   '(lambda ()
-  ;;      (setq company-idle-delay 0.1)))
-  ;; (setq company-quickhelp-max-lines 10)
-  ;; (global-set-key (kbd "s-i") 'company-complete-common)
-  ;; (global-set-key (kbd "C-k") 'company-complete-common)
-  ;; (define-key evil-insert-state-map (kbd "C-l") 'company-complete)
-
-  ;; (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
-  ;; (setq tab-always-indent 'complete)
-
-  ;; (exec-path-from-shell-initialize)
-  ;; (when (memq window-system '(mac ns))
-  ;;   (exec-path-from-shell-initialize))
-
-  ;; (toggle-word-wrap)
   (setq powerline-default-separator 'arrow)
-  (set-face-attribute 'region nil :foreground "white" :background "#Aa7941")
-
+  ;; (set-face-attribute 'region nil :foreground "white" :background "#Aa7941")
   (global-set-key (kbd "C-c \\")  'align-regexp)
-  (global-set-key (kbd "M-x")     'helm-M-x)
-  (global-set-key (kbd "C-x C-m") 'helm-M-x)
-  (global-set-key (kbd "C-x m")   'eshell)
-  (global-set-key (kbd "M-y")     'helm-show-kill-ring)
-  (global-set-key (kbd "C-x b")   'helm-mini)
-  (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-h f")   'helm-apropos)
-  (global-set-key (kbd "C-h r")   'helm-info-emacs)
-  (global-set-key (kbd "C-h C-l") 'helm-locate-library)
-  (global-set-key (kbd "C-c n")   'prelude-cleanup-buffer-or-region)
-  (eval-after-load 'evil
-    '(progn
-       (define-key evil-ex-map "e" 'helm-find-files)
-       (evil-ex-define-cmd "b" 'helm-buffers-list)
-       (evil-ex-define-cmd "q" 'ido-kill-buffer)))
   (evil-leader/set-key
     "&" 'async-shell-command)
 
-  ;; semantic
-  ;; (eval-after-load 'semantic
-  ;;   '(global-semantic-idle-summary-mode 0))
-
-  ;; (defun my-enable-semantic-mode (ori-func &rest args)
-  ;;   (let ((hook (intern (concat (symbol-name mode) "-hook"))))
-  ;;     (add-hook hook (lambda ()
-  ;;                      (require 'semantic)
-  ;;                      (add-to-list 'semantic-default-submodes
-  ;;                                   'global-semantic-stickyfunc-mode)
-  ;;                      (global-semantic-idle-summary-mode 0)
-  ;;                      (semantic-mode 1)))))
-
-  ;; (advice-add 'semantic/enable-semantic-mode :around #'my-enable-semantic-mode)
-
-  ;; yasnippet
-  (eval-after-load 'yasnippet
-    '(add-hook 'yas/prompt-functions 'shk-yas/helm-prompt))
-
-  ;; zshell
-  ;;; Use 'native' vim keybinding in zshell
+  ;; ;; zshell
   (setq multi-term-program "/bin/zsh")
   (setq multi-term-buffer-name "zshell")
   (setq multi-term-scroll-to-bottom-on-output 't)
   (setq multi-term-scroll-show-maximum-output 't)
-
-  (global-set-key (kbd "s-t") 'multi-term)
-  (global-set-key (kbd "s-}") 'multi-term-next)
-  (global-set-key (kbd "s-{") 'multi-term-prev)
+  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
   (defun term-send-towards-end-of-line ()
     "Towards the end of line"
@@ -295,125 +287,81 @@ layers configuration. You are free to put any user code."
     "\C-w" 'term-send-backward-kill-word
     "\C-]" 'term-send-esc)
 
-  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
-  ;; Lang
-  ;;; c++
-  (setq comment-auto-fill-only-comments t)
-  ;; (eval-after-load 'flycheck
-  ;;   '(progn
-  ;;      (setq flycheck-clang-args '("-stdlib=libstdc++"))))
+  ;; ;; Lang
+  ;; ;;; c++
+  ;; (setq comment-auto-fill-only-comments t)
 
-
-  (add-hook 'c-mode-hook
-            (lambda ()
-              (auto-fill-mode 1)))
-
-  (add-hook 'c++-mode-hook
-            (lambda ()
-              (auto-fill-mode 1)
-              (setq flycheck-clang-args '("-stdlib=libstdc++"))
-              (setq flycheck-clang-language-standard "c++11")))
-
-  ;;; python
-  ;; (defun python/auto-fill-mode ()
-  ;;   (interactive)
-  ;;   (auto-fill-mode))
-  ;; (add-hook 'python-mode-hook 'auto-fill-mode)
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (auto-fill-mode)))
-  ;; (defun python3-anaconda-mode (orig-fun &rest args)
-  ;;   "Replace python2 to python3"
-  ;;   (let ((python (if (eq system-type 'windows-nt) "pythonw" "python3"))
-  ;;         (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
-  ;;     (--if-let anaconda-mode-virtualenv-variable
-  ;;         (f-join it bin-dir python)
-  ;;       python)))
-
-  ;; (defun python2-anaconda-mode (orig-fun &rest args)
-  ;;   (let ((python (if (eq system-type 'windows-nt) "pythonw" "python"))
-  ;;         (bin-dir (if (eq system-type 'windows-nt) "Scripts" "bin")))
-  ;;     (--if-let anaconda-mode-virtualenv-variable
-  ;;         (f-join it bin-dir python)
-  ;;       python)))
-
-  ;; (defvar anaconda-mode-is-python2 t)
-
-  ;; (defun switch-anaconda-python2-python3 ()
-  ;;   (interactive)
-  ;;   (if anaconda-mode-is-python2
-  ;;       (progn
-  ;;         (setq anaconda-mode-is-python2 nil)
-  ;;         (advice-add 'anaconda-mode-python :around #'python3-anaconda-mode)
-  ;;         (message "anaconda mode: python 3"))
-  ;;     (progn
-  ;;       (setq anaconda-mode-is-python2 t)
-  ;;       (advice-add 'anaconda-mode-python :around #'python2-anaconda-mode)
-  ;;       (message "anaconda mode: python 2"))))
-
-  ;; (advice-add 'anaconda-mode-python :around #'my-anaconda-mode-python)
-
-  ;; (add-hook 'python-mode-hook
+  ;; (add-hook 'c-mode-hook
   ;;           (lambda ()
-  ;;             (define-key python-mode-map (kbd "s->") 'anaconda-mode-goto)
-  ;;             (define-key python-mode-map (kbd "s-<") 'anaconda-nav-pop-marker)))
-
-  ;;; latex
-  (setq latex-run-command "pdflatex")
-  (setq bibtex-align-at-equal-sign t)
-  (evil-leader/set-key-for-mode 'latex-mode
-    "m_" 'TeX-master-file-ask)
-
-  ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-
-  ;; Use Skim as viewer, enable source <-> PDF sync
-  ;; make latexmk available via C-c C-c
-  ;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
-  (add-hook 'LaTeX-mode-hook (lambda ()
-                               (push
-                                '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
-                                  :help "Run latexmk on file")
-                                TeX-command-list)))
-  (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-
-  ;; use Skim as default pdf viewer
-  ;; Skim's displayline is used for forward search (from .tex to .pdf)
-  ;; option -b highlights the current line; option -g opens Skim in the background
-  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
-  (setq TeX-view-program-list
-        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
-
-  ;; (setq TeX-view-program-list
-  ;;       '(("Skim" "/Applications/Skim.app/Contents/MacOS/Skim %q")))
-  ;; (add-hook 'TeX-mode-hook '(lambda ()
-  ;;                          (spacemacs/toggle-visual-line-navigation)))
-  ;; (add-hook 'LaTeX-mode-hook '(lambda ()
-  ;;                          (spacemacs/toggle-visual-line-navigation)))
-
-  ;; (add-hook 'text-mode-hook
-  ;;           (lambda ()
-  ;;             (smartparens-mode 1)
   ;;             (auto-fill-mode 1)))
 
-  ;; whilte-space cleanup
-  (require 'whitespace)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  ;; (add-hook 'c++-mode-hook
+  ;;           (lambda ()
+  ;;             (auto-fill-mode 1)
+  ;;             (setq flycheck-clang-args '("-stdlib=libstdc++"))
+  ;;             (setq flycheck-clang-language-standard "c++11")))
+
+  ;; ;;; python
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (auto-fill-mode)))
+  ;; (setq python-shell-interpreter "ipython")
+
+  ;; ;;; latex
+  ;; (setq latex-run-command "pdflatex")
+  ;; (setq bibtex-align-at-equal-sign t)
+  ;; (evil-leader/set-key-for-mode 'latex-mode
+  ;;   "m_" 'TeX-master-file-ask)
+
+  ;; ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  ;; ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+
+  ;; ;; Use Skim as viewer, enable source <-> PDF sync
+  ;; ;; make latexmk available via C-c C-c
+  ;; ;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
+  ;; (add-hook 'LaTeX-mode-hook (lambda ()
+  ;;                              (push
+  ;;                               '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+  ;;                                 :help "Run latexmk on file")
+  ;;                               TeX-command-list)))
+  ;; (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+
+  ;; ;; use Skim as default pdf viewer
+  ;; ;; Skim's displayline is used for forward search (from .tex to .pdf)
+  ;; ;; option -b highlights the current line; option -g opens Skim in the background
+  ;; ;; (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  ;; ;; (setq TeX-view-program-list
+  ;; ;;       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+  ;; ;; (setq TeX-view-program-list
+  ;; ;;       '(("Skim" "/Applications/Skim.app/Contents/MacOS/Skim %q")))
+  ;; ;; (add-hook 'TeX-mode-hook '(lambda ()
+  ;; ;;                          (spacemacs/toggle-visual-line-navigation)))
+  ;; ;; (add-hook 'LaTeX-mode-hook '(lambda ()
+  ;; ;;                          (spacemacs/toggle-visual-line-navigation)))
+
+  ;; ;; (add-hook 'text-mode-hook
+  ;; ;;           (lambda ()
+  ;; ;;             (smartparens-mode 1)
+  ;; ;;             (auto-fill-mode 1)))
 
   ;; org
-  (add-hook 'org-mode-hook '(lambda ()
-                              (auto-fill-mode 1)
-                              (set-fill-column 75)))
   (setq org-src-fontify-natively t)
   (setq org-fontify-quote-and-verse-blocks t)
-  (evil-define-key 'normal evil-org-mode-map
-    "O" 'evil-open-above)
+  (setq org-startup-truncated nil)
+  ;; (evil-define-key 'normal evil-org-mode-map
+  ;;   "O" 'evil-open-above)
+  (setq deft-directory "~/Projects/Notes")
 
-  ;; (desktop-save-mode)
-  (evil-leader/set-key
-    "ods" 'desktop-save-in-desktop-dir
-    "odr" 'desktop-read)
+  ;; Chinese
+  (fcitx-aggressive-setup)
+  (set-fontset-font "fontset-default" 'han '("Microsoft YaHei" . "unicode-bmp"))
+  (setq-default org-download-image-dir "~/Pictures/Note_Images/")
+
+  ;; Navigation
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
