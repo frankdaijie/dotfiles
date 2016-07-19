@@ -23,7 +23,10 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (auto-completion :disabled-for org git)
+     (auto-completion :disabled-for org git
+                      :variables
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      )
      better-default
      (chinese :variables
              chinese-enable-fcitx t)
@@ -33,7 +36,8 @@ values."
      fasd
      git
      html
-     javascript
+     (javascript :variables
+                 javascript-disable-tern-port-files nil)
      latex
      markdown
      python
@@ -46,6 +50,7 @@ values."
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
      version-control
+     ycmd
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -107,8 +112,8 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         spacemacs-light
                          spacemacs-dark
+                         spacemacs-light
                          solarized-dark
                          solarized-light
                          zenburn
@@ -241,7 +246,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'trailing
    ))
 
 (defun dotspacemacs/user-init ()
@@ -362,7 +367,27 @@ layers configuration. You are free to put any user code."
   ;; Navigation
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
+  ;; Javascript
+  ;; (setq-default js2-basic-offset 2)
+  ;; (setq-default js-indent-level 2)
+
+  ;; (add-hook 'python-mode-hook 'ycmd-mode)
+  ;; (set-variable 'ycmd-server-command '("python" "/Library/Frameworks/Python.framework/Versions/3.5/bin/python3"))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
