@@ -58,12 +58,6 @@ export SVN_EDITOR="emacsclient -t"
 alias listen="lsof -P -i -n"
 
 
-# Local Config
-if [ -f ~/.dotfiles/shell/local.zsh ]; then
-    . ~/.dotfiles/shell/local.zsh
-fi
-
-
 # Shadowsocks
 export DIGITALOCEAN=159.203.233.176
 alias sslocal_start="sudo sslocal -c /etc/shadowsocks.json -d start"
@@ -78,4 +72,3 @@ zle-line-init() {
     zle autosuggest-start
 }
 zle -N zle-line-init
-

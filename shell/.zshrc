@@ -46,7 +46,7 @@ plugins=(git brew pip clang fasd)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export CUSTOM_HOME=~/.dotfiles/
+export CUSTOM_HOME=~/.dotfiles/shell
 source $CUSTOM_HOME/custom.sh
 
 # export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
