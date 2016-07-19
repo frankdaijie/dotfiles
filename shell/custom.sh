@@ -57,13 +57,6 @@ export SVN_EDITOR="emacsclient -t"
 ## show the process that connects to the Internet
 alias listen="lsof -P -i -n"
 
-
-# Shadowsocks
-export DIGITALOCEAN=159.203.233.176
-alias sslocal_start="sudo sslocal -c /etc/shadowsocks.json -d start"
-alias sslocal_stop="sudo sslocal -c /etc/shadowsocks.json -d stop"
-
-
 # Load zsh-autosuggestions.
 source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 
