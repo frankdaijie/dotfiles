@@ -2,7 +2,7 @@ cd ~/
 
 # Bash config
 if [ ! -f ~/.bashrc ]; then
-    ln -s ~/.dotfiles/.bashrc ~/.bashrc
+    ln -s ~/.dotfiles/shell/.bashrc ~/.bashrc
 fi
 
 # Zshell config
@@ -13,7 +13,7 @@ fi
 if [ -f ~/.zshrc ]; then
     mv .zshrc .zshrc.backup
 fi
-ln -s ~/.dotfiles/.zshrc ~/.zshrc
+ln -s ~/.dotfiles/shell/.zshrc ~/.zshrc
 
 # Install spacemacs
 if [ ! -d ~/.emacs.d ]; then
@@ -24,4 +24,4 @@ fi
 if [ -f ~/.spacemacs ]; then
     mv .spacemacs .spacemacs.backup
 fi
-ln -s ~/.dotfiles/.spacemacs ~/.spacemacs
+ln -s ~/.dotfiles/spacemacs/.spacemacs ~/.spacemacs
